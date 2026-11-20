@@ -13,6 +13,9 @@ class ProfileAsset extends AssetBundle
     public $js = [
         'js/access-token.js'
     ];
+    public $depends = [
+        'yii\web\JqueryAsset',
+    ];
     public $publishOptions = [
         'forceCopy' => YII_DEBUG,
     ];

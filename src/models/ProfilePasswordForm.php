@@ -19,7 +19,8 @@ class ProfilePasswordForm extends Model
             [['password'], 'required'],
             [['old_password'], 'required'],
             ['old_password', 'string', 'min' => 6],
-            ['password', 'string', 'min' => 6],
+            ['password', 'string', 'min' => \portalium\user\components\PasswordPolicy::minLength(), 'max' => \portalium\user\components\PasswordPolicy::MAX_LENGTH],
+            ['password', \portalium\user\components\PasswordPolicy::class, 'userAttributes' => []],
         ];
         return $rules;
     }

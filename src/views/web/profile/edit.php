@@ -4,10 +4,13 @@ use yii\helpers\Html;
 use portalium\theme\widgets\ActiveForm;
 use portalium\theme\widgets\Panel;
 use portalium\site\Module;
+use portalium\site\bundles\ProfileAsset;
 
 /* @var $this yii\web\View */
 /* @var $model portalium\content\models\Content */
 /* @var $form yii\widgets\ActiveForm */
+
+ProfileAsset::register($this);
 
 $this->title = Module::t('Edit Account');
 $this->params['breadcrumbs'][] = ['label' => Module::t('Setting'), 'url' => ['setting/index']];
@@ -70,6 +73,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php Panel::end() ?>
 <?php ActiveForm::end(); ?>
+
+<?php if (class_exists(\portalium\auth\widgets\ConnectedAccounts::class)): ?>
+<?= \portalium\auth\widgets\ConnectedAccounts::widget() ?>
+<?php endif; ?>
+
+<?php if (class_exists(\portalium\auth\widgets\ActiveSessions::class)): ?>
+<?= \portalium\auth\widgets\ActiveSessions::widget() ?>
+<?php endif; ?>
 
 <?php
 $changePassForm = ActiveForm::begin(['method' => 'post', 'action' => ['profile/edit-password']]); ?>
