@@ -39,9 +39,6 @@ class DbManager extends Model
             ->where(['type' => 1]);
         $dataProvider = new \portalium\data\ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
         ]);
         return $query;
     }

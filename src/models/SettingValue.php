@@ -30,11 +30,11 @@ class SettingValue extends Model
         return [
             [['value'], 'string', 'max' => 200, 'on' => self::SCENARIO_INPUT],
             [['value'], 'string', 'max' => 200, 'on' => self::SCENARIO_DEFAULT],
-            [['value'], 'string', 'max' => 200,'on' => self::SCENARIO_INPUTTEXT],
+            [['value'], 'string', 'max' => 1000,'on' => self::SCENARIO_INPUTTEXT],
             [['value'], 'string', 'max' => 200,'on' => self::SCENARIO_INPUTPASSWORD],
             [['value'], 'string', 'max' => 200,'on' => self::SCENARIO_INPUTFILE],
             [['value'], 'string', 'max' => 200,'on' => self::SCENARIO_INPUTHIDDEN],
-            [['value'], 'string', 'max' => 200,'on' => self::SCENARIO_TEXTAREA],
+            [['value'], 'string', 'max' => 5000,'on' => self::SCENARIO_TEXTAREA],
             [['value'], 'string', 'max' => 200, 'on' => self::SCENARIO_CHECKBOX],
             [['value'], 'each', 'rule' => ['string', 'max' => 200], 'on' => self::SCENARIO_CHECKBOXLIST],
             [['value'], 'string', 'max' => 200, 'on' => self::SCENARIO_RADIO],
