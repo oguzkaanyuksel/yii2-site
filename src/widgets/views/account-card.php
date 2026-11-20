@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use portalium\site\Module;
+use portalium\theme\widgets\ColorModeSwitch;
 
 /* @var $this yii\web\View */
 /* @var $id string */
@@ -35,7 +36,14 @@ $picture = $avatar !== null
         <?php if ($canPreferences) : ?>
             <?= Html::a(Html::tag('i', '', ['class' => 'fa fa-sliders', 'aria-hidden' => 'true']) . Module::t('Preferences'), ['/site/preference/index'], ['class' => 'dropdown-item']) ?>
         <?php endif; ?>
-        <?php if ($canEdit || $canPreferences) : ?>
+        <?php $colorModeRows = class_exists(ColorModeSwitch::class) ? ColorModeSwitch::widget() : ''; ?>
+        <?php if ($colorModeRows !== '') : ?>
+            <?php if ($canEdit || $canPreferences) : ?>
+                <div class="dropdown-divider"></div>
+            <?php endif; ?>
+            <?= $colorModeRows ?>
+        <?php endif; ?>
+        <?php if ($canEdit || $canPreferences || $colorModeRows !== '') : ?>
             <div class="dropdown-divider"></div>
         <?php endif; ?>
         <?= Html::a(Html::tag('i', '', ['class' => 'fa fa-sign-out', 'aria-hidden' => 'true']) . Module::t('Logout'), ['/auth/default/logout'], ['class' => 'dropdown-item', 'data-method' => 'post']) ?>

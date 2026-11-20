@@ -3,6 +3,7 @@
 use portalium\menu\models\MenuItem;
 use portalium\site\bundles\ProfileAsset;
 use portalium\site\Module;
+use portalium\theme\widgets\ColorModeSwitch;
 use yii\helpers\Html;
 
 ProfileAsset::register($this);
@@ -57,6 +58,13 @@ if ($placement == 'top-to-bottom') {
         <li>
             <hr class="dropdown-divider">
         </li>
+        <?php $colorModeRows = class_exists(ColorModeSwitch::class) ? ColorModeSwitch::widget(['listItems' => true]) : ''; ?>
+        <?php if ($colorModeRows !== '') : ?>
+            <?= $colorModeRows ?>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+        <?php endif; ?>
            <li>
             <?= yii\helpers\Html::a(
                 Module::t('Logout'), 
