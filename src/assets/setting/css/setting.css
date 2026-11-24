@@ -1,0 +1,101 @@
+/* Module list on the left, the open module's form on the right; both on the panel's own white surface. */
+.setting-layout {
+  --setting-rail: 230px;
+  display: grid;
+  grid-template-columns: var(--setting-rail) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.setting-nav.nav {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 2px;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  margin: 0 !important;
+  padding: 0 12px 0 0;
+  border-right: 1px solid var(--nv-border, #e5e7eb);
+}
+
+.setting-nav .nav-item,
+.setting-nav .nav-link {
+  border: 0 !important;
+}
+
+.setting-nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.setting-nav .nav-link .fa {
+  color: var(--bs-secondary-color);
+}
+
+.setting-nav .nav-link.active {
+  background: color-mix(in srgb, var(--nv-brand, #7ed957) 16%, transparent);
+  color: var(--nv-accent, #28a745) !important;
+  font-weight: 600;
+}
+
+.setting-nav .nav-link.active .fa {
+  color: inherit;
+}
+
+.setting-content {
+  min-width: 0;
+}
+
+.setting-pane-title {
+  margin: 0 0 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--nv-border, #e5e7eb);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+/* The settings form is horizontal (label column + field column); here the label sits above its field. */
+.setting-content .row {
+  display: block;
+  margin: 0 0 1.1rem;
+}
+
+.setting-content .row > [class*="col-"] {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  padding: 0;
+}
+
+.setting-content .col-form-label {
+  padding: 0 0 0.35rem;
+  font-weight: 500;
+}
+
+@media (max-width: 1199.98px) {
+  .setting-layout {
+    --setting-rail: 200px;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .setting-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .setting-nav.nav {
+    flex-direction: row;
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 0 8px;
+    border-right: 0;
+    border-bottom: 1px solid var(--nv-border, #e5e7eb);
+  }
+}

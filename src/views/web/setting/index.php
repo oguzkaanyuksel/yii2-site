@@ -27,37 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
     ]
 ]) ?>
 
-<?php
-$tabsData = [];
-foreach ($settingsGroup as $module => $items) {
-    $tabsData[] = [
-        'label' => Yii::$app->getModule($module)->t(Yii::$app->getModule($module)::$name),
-        'content' => $this->render('_setting', ['settings' => $items, 'form' => $form]),
-    ];
-}
-
-echo \portalium\theme\widgets\Tabs::widget([
-    'items' => $tabsData,
-    'options' => [
-        'class' => 'nav-tabs-custom',
-        'style' => 'margin-bottom: 10px;'
-    ],
+<?= $this->render('_module-tabs', [
+    'settingsGroup' => $settingsGroup,
+    'form' => $form,
+    'fieldsView' => '_setting',
     'id' => 'setting-tabs',
-]);
-?>
+]) ?>
 <?php Panel::end() ?>
 <?php ActiveForm::end(); ?>
-
-<?php
-$js = <<<JS
-
-    $('#setting-tabs a').click(function (e) {
-        e.preventDefault();
-        $(this).tab('show');
-        $('#setting-update').attr('action', $('#setting-update').attr('action').replace(/#.*$/, ''));
-        $('#setting-update').attr('action', $('#setting-update').attr('action') + $(this).attr('href'));
-    });
-
-JS;
-$this->registerJs($js);
-?>

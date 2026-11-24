@@ -30,36 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
     ]
 ]) ?>
 
-<?php
-$tabsData = [];
-foreach ($settingsGroup as $module => $items) {
-    $tabsData[] = [
-        'label' => Yii::$app->getModule($module)->t(Yii::$app->getModule($module)::$name),
-        'content' => $this->render('_preference', ['settings' => $items, 'form' => $form]),
-
-    ];
-}
-
-echo \portalium\theme\widgets\Tabs::widget([
-    'items' => $tabsData,
-    'options' => [
-        'class' => 'nav-tabs-custom', 'style' => 'margin-bottom: 10px;'
-    ],
+<?= $this->render('@portalium/site/views/web/setting/_module-tabs', [
+    'settingsGroup' => $settingsGroup,
+    'form' => $form,
+    'fieldsView' => '@portalium/site/views/web/preference/_preference',
     'id' => 'preference-tabs',
-]);
-?>
+]) ?>
 <?php Panel::end() ?>
 <?php ActiveForm::end(); ?>
-<?php
-$js = <<<JS
-
-    $('#preference-tabs a').click(function (e) {
-        e.preventDefault();
-        $(this).tab('show');
-        $('#preference-update').attr('action', $('#preference-update').attr('action').replace(/#.*$/, ''));
-        $('#preference-update').attr('action', $('#preference-update').attr('action') + $(this).attr('href'));
-    });
-
-JS;
-$this->registerJs($js);
-?>
