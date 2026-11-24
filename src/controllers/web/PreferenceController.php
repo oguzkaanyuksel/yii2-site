@@ -38,10 +38,11 @@ class PreferenceController extends WebController
 
             $preference = Preference::find()
                 ->where([
-                    'id_user' =>\Yii::$app->user->id,
-                    'id_workspace' =>\Yii::$app->workspace->id,
+                    'id_user' => \Yii::$app->user->id,
                     'id_setting' => $setting->id,
                 ])
+                ->andWhere(['or', ['id_workspace' => \Yii::$app->workspace->id], ['id_workspace' => null]])
+                ->orderBy(['id_workspace' => SORT_DESC])
                 ->one();
 
             if($preference)

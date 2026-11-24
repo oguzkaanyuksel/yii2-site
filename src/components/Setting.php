@@ -31,40 +31,18 @@ class Setting extends Component
 
     public function getValue($name)
     {
-        if(isset(\Yii::$app->user->id))
-        {
-            $settingModel=self::findSetting($name);
-            $preferenceModel=self::findPreference($settingModel->id);
-//            if (\Yii::$app->session->get($name) !== null) {
-//                return self::decode(Yii::$app->session->get($name));
-//            }
-            if($preferenceModel)
-            {
-                return self::decode(self::findPreference($settingModel->id)->value);
-            }
-            else
-            {
-                return self::decode(self::findSetting($name)->value);
-            }
+        $settingModel = self::findSetting($name);
+        $preferenceModel = self::findPreference($settingModel);
 
-        }
-        return self::decode(self::findSetting($name)->value);
-
+        return self::decode($preferenceModel ? $preferenceModel->value : $settingModel->value);
     }
 
     public static function getSetting($name)
     {
-        $settingModel=self::findSetting($name);
-        $preferenceModel=self::findPreference($settingModel->id);
+        $settingModel = self::findSetting($name);
+        $preferenceModel = self::findPreference($settingModel);
 
-        if($preferenceModel)
-        {
-            return self::findPreference($settingModel->id);;
-        }
-        else
-        {
-            return self::findSetting($name);
-        }
+        return $preferenceModel ? $preferenceModel : $settingModel;
     }
 
     private function decode($value)
@@ -81,16 +59,24 @@ class Setting extends Component
         throw new NotFoundHttpException(Module::t('The requested '.$name.' setting does not exist.'));
     }
 
-    private static function findPreference($id)
+    /**
+     * The user's preference for a setting: the active workspace's row first, then the row without a
+     * workspace (global). Only settings marked as preferences can be overridden by a user.
+     */
+    private static function findPreference($settingModel)
     {
-        $id_user=\Yii::$app->user->id;
-        $id_workspace=\Yii::$app->workspace->id;
-
-        if (($preference = Preference::findOne(['id_setting' => $id,'id_user'=>$id_user,'id_workspace'=>$id_workspace])) !== null) {
-            return $preference;
+        if (!\Yii::$app->has('user') || \Yii::$app->user->id === null || (int) $settingModel->is_preference !== 1) {
+            return false;
         }
 
-       return false;
+        $idWorkspace = \Yii::$app->has('workspace') ? \Yii::$app->workspace->id : null;
+        $preference = Preference::find()
+            ->where(['id_setting' => $settingModel->id, 'id_user' => \Yii::$app->user->id])
+            ->andWhere(['or', ['id_workspace' => $idWorkspace], ['id_workspace' => null]])
+            ->orderBy(['id_workspace' => SORT_DESC])
+            ->one();
+
+        return $preference ?: false;
     }
 
     function isJson($value) {

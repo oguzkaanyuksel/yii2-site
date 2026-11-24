@@ -31,6 +31,15 @@ class Module extends \portalium\base\Module
                 'GET app-info' => 'app-info',
             ],
         ],
+        [
+            'class' => 'yii\rest\UrlRule',
+            'controller' => [
+                'site/preference',
+            ],
+            'extraPatterns' => [
+                'GET values' => 'values',
+            ],
+        ],
     ];
 
     public static $tablePrefix = 'site_';
