@@ -18,6 +18,7 @@ class Module extends \portalium\base\Module
 
     public static $description = 'Site Management Module';
     public static $name = 'Site';
+    public static $icon = 'globe';
     public $apiRules = [
         [
             'class' => 'yii\rest\UrlRule',
